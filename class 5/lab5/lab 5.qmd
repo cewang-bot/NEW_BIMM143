@@ -1,0 +1,183 @@
+---
+title: "Class 5: Data Viz with ggplot"
+author: "Cecilia Wang (PID:18625854)"
+format: pdf
+toc: true
+---
+
+## Background
+
+There are a lot of ways to make figures in R. These include so-called "base R" graphics. (e.g. `plot()`) and tones of add-on packages like **ggplot2**. 
+
+For example here we make a same plot with both: 
+
+```{r}
+head(cars)
+```
+
+```{r}
+plot(cars)
+```
+First I need to install the package with the command `install.packages()`.
+
+> **N.B.** We never run an install cmd in a quarto code chunk or we will end up re-installing packages many many times- whcih is not we want!
+
+Every time we want to use one of these "add-on" packages we need to load it up in R with`library()` function:
+
+```{r}
+library(ggplot2)
+ggplot(cars)
+```
+Every ggplot need at least 3 things:
+
+- The **data**, the stuff you want to plotted
+- The **aes**thtics, how the data map to the plot
+- The **geom**etry, they type of plot 
+
+```{r}
+p <- ggplot(cars)+
+  aes(x=speed, y=dist)+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE, color="purple")+
+  labs(title = "Stopping distance of old cars", subtitle = "data from the `cars` object", x="Speed (mph)", y="Distance (ft)")
+```
+
+render it out
+```{r}
+p
+```
+
+```{r}
+p+theme_bw()
+
+```
+
+
+## Gene expression plot
+
+We can read the input data data the class website
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes)
+
+nrow(genes)
+```
+
+A first version plot
+
+```{r}
+ggplot(genes)+
+  aes(Condition1, Condition2) +
+  geom_point()
+```
+
+```{r}
+table(genes$State)
+```
+
+Version 2 plot, let's color by `State` so we can see the "u"p and "down" significant genes compared to all the unchanging genes. 
+
+```{r}
+ggplot(genes)+
+  aes(Condition1, Condition2, col=State) +
+  geom_point()
+```
+
+Version 3 plot, let's modify the colors to something we like:
+
+```{r}
+ggplot(genes)+
+  aes(Condition1, Condition2, col=State) +
+  geom_point() +
+  scale_color_manual(values = c("Blue","grey","red"))+
+  labs(x="Control (no drug)", y="Drug",
+       title = "Gene Expression Change upon GLP-1 Drug")+
+  theme_linedraw()
+```
+
+## Going Further
+
+Let's have a look at the famous **gapminder**
+
+```{r}
+url <- "https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv"
+gapminder <- read.delim(url)
+```
+
+```{r}
+head(gapminder,5)
+```
+
+Version 1 Plot
+
+```{r}
+ggplot(gapminder)+
+  aes(x=gdpPercap, y=lifeExp)+
+  geom_point(alpha=0.4)
+```
+
+Version 2 plot:
+
+```{r}
+ggplot(gapminder)+
+  aes(x=gdpPercap, y=lifeExp,col=continent)+
+  geom_point(alpha=0.3)
+```
+
+Let's "facet" by continent rather than big hot mess above
+
+```{r}
+ggplot(gapminder)+
+  aes(x=gdpPercap, y=lifeExp,col=continent)+
+  geom_point(alpha=0.3)+
+  facet_wrap(~continent)
+```
+
+## Custom Plots
+
+How big is this gapminder dataset?
+
+```{r}
+nrow(gapminder)
+```
+
+I want to "filter" down to a subset of this data. I will use **dplyr** package to help me. 
+
+ First I need to install and load it up...
+ 
+```{r}
+library(dplyr)
+
+gapminder_1977 <- gapminder %>% filter(year==1977)
+head(gapminder_1977)
+gapminder_2007 <- gapminder %>% filter(year==2007)
+head(gapminder_2007)
+```
+
+```{r}
+filter(gapminder_2007, country=="United States")
+```
+
+> Q. Make a plot compring 1977 and 2007 for all countries. 
+
+```{r}
+gap_compare <- filter(gapminder,year %in% c(1977,2007))
+
+ggplot(gap_compare)+
+  aes(x=gdpPercap, y=lifeExp, col=continent)+
+  geom_point(alpha=0.9)+
+  facet_wrap(~year)
+  
+```
+
+
+
+
+
+
+
+
+
+
