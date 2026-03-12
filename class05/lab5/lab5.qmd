@@ -1,8 +1,8 @@
 ---
 title: "Class 5: Data Viz with ggplot"
 author: "Cecilia Wang (PID:18625854)"
-format: pdf
-toc: true
+format: gfm
+
 ---
 
 ## Background
