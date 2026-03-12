@@ -6,6 +6,6 @@ My class work for BIMM143 at UC San Diego
 
 * Introductory material *
 
-- class 04 [Intro to R](class04/Class04.R)
+- class 04 [Intro to R](class04/Class04.html)
   
 
