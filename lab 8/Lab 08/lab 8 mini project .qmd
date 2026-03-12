@@ -1,5 +1,0 @@
----
-title: "lab 8 mini project "
-format: html
----
-
