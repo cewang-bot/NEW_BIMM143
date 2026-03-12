@@ -1,0 +1,232 @@
+# Lab 6- R Function Lab
+Cecilia Wang (PID:18625854)
+
+## Background
+
+All functions in R have at least 3 things:
+
+- A **Name** that we use to call the function.
+- One or more input **arguments**
+- The **body** the lines of R code that do the work
+
+## Our first function
+
+let’s write a silly wee function to called `add()` to add some numbers
+(the input arguments)
+
+``` r
+add <- function(x,y){x+y}
+```
+
+Now we can use this function
+
+``` r
+add(100,1)
+```
+
+    [1] 101
+
+``` r
+add(x=c(100,1,100),y=1)
+```
+
+    [1] 101   2 101
+
+``` r
+add(x=10, y=10)
+```
+
+    [1] 20
+
+> Q.What is I give multiple element vector to `x` and `y`
+
+``` r
+add(x=c(100,1),(y=c(100,1)))
+```
+
+    [1] 200   2
+
+> Q.What If I give three inputs to the function?
+
+it gives you an error message
+
+> Q.What If I give only one inputs to the function?
+
+``` r
+addnew <- function(x,y=1){x+y}
+
+addnew(x=100)
+```
+
+    [1] 101
+
+``` r
+addnew(c(100,1),100)
+```
+
+    [1] 200 101
+
+If we write our function with input arguments having no default value
+then the user will be required to set them whey they use the function.
+We can give our input arguments “default” values by setting them equal
+to some variable. e.g., y=1.
+
+## A second function
+
+Let’s try something more interesting: Make a sequence generating tool…
+
+The `sample()` function can be useful starting point.
+
+``` r
+sample(1:10,size=4)
+```
+
+    [1] 6 5 1 7
+
+> Q. Generate 9 random numbers taken form the input vector x=1:10
+
+``` r
+sample(1:10, size=9)
+```
+
+    [1]  2  5  1  6  9  7 10  4  8
+
+> Q. Generate 12 random numbers taken form the input vector x=1:10
+
+``` r
+sample(1:10, size=12, replace=TRUE)
+```
+
+     [1] 4 3 3 8 4 2 8 7 9 3 3 1
+
+> Q. Write code for a `sample()` function that generates nucletide
+> sequences of length 6?
+
+``` r
+sample(x=c("A","C","G","T"), size=6, replace=TRUE)
+```
+
+    [1] "A" "A" "T" "T" "G" "C"
+
+> Q.Write a first function `generate_dna()` that returns a user
+> specifies length DNA sequence:
+
+``` r
+generate_dna <- function(len=6) {bases <- c("A", "T", "C", "G")
+(sample(bases, size = len, replace = TRUE))
+}
+```
+
+``` r
+generate_dna(10)
+```
+
+     [1] "C" "A" "C" "T" "A" "T" "A" "G" "C" "T"
+
+> **Key points** Every function in R look fundamentally the same in term
+> of its structure. Basically 3 things: name, input, and body.
+
+    name <- function(input){
+    body
+    }
+
+> Function can have multiple inputs. These can be **required** arguments
+> or **optional** arguments. With optional arguments having a set
+> default value.
+
+> Q. Modify and improve our `generate_dna()` function to retun it’s
+> generated sequence om a more standard format like “AGTATA” rathe than
+> the vector “A”,“C”,“G”,“T”.
+
+``` r
+generate_dna <- function(len=6, fasta=TRUE) {
+  
+ans<- sample(x=c("A","C","G","T"), size = len, replace=TRUE)
+
+if (fasta) {
+  cat("single-element vector output")
+ans<-paste(ans,collapse = "")
+} else{
+  cat("Multi-element vector output")
+}
+return(ans)
+}
+
+
+generate_dna(10)
+```
+
+    single-element vector output
+
+    [1] "GACATCGTGC"
+
+The `paste()` function - it’s job is to join up or stick together
+(a.k.a. paste) input strings together.
+
+``` r
+paste("alice","loves R", sep=" ")
+```
+
+    [1] "alice loves R"
+
+Flow control means where the R brain goes in your code
+
+``` r
+goodmood <- TRUE
+
+if(goodmood){
+  cat("Great!")
+} else {
+  cat("Bummer!")
+}
+```
+
+    Great!
+
+## A Protein generating function
+
+> Q. Write a function that generate a user specifed length protein
+> sequence.
+
+> Q. Use that function to generate random protein sequence between
+> length 6 and 12.
+
+``` r
+generate_protein <- function(len, fasta=TRUE) {
+# The amino acids to sample from 
+aa<- c("A","D","R","N","C","Q","E","G","H","I","L","K","M","F","P","S","T","W","Y","V")
+
+# Draw amino acids sequence 
+ans <-sample(aa, size = len, replace=T)
+
+return(ans)
+}
+```
+
+``` r
+for(i in 6:12) {
+  #FASTA ID line ">id"
+  cat(">",i,sep = "", "\n")
+  # protein sequence line 
+  cat(generate_protein(i),sep = "","\n")
+}
+```
+
+    >6
+    EAFKMV
+    >7
+    FGYCHHS
+    >8
+    FLIHWWGL
+    >9
+    LHPPFEQNY
+    >10
+    FTYAQALCWT
+    >11
+    RVIDMHSEESR
+    >12
+    GEGMWPKFARHA
+
+> Q. Are any of your sequences unique i.e. not found anywhere in nature
+
+Sequence 8-12 are unique, not found anywhere in nature.
