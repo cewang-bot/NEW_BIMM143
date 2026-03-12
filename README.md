@@ -20,7 +20,7 @@ My class work for BIMM143 at UC San Diego
 - class 15 Hands-on with Git and GitHub: Created this GitHub repository.
 - class 16 Essential UNIX for bioinformatics: Exploring AWS EC2 instances
 - class 17 [Analyzing sequencing data in the cloud](mdfile/Class17.md)
-- class 18 [Project: Investigating pertussis resurgence mini-project](class18.md)
+- class 18 [Project: Investigating pertussis resurgence mini-project](mdfile/class18.md)
 - Class 19 Project: Cancer mutation analysis mini-project: Using AlphaFold and MolViewer to explore mutant genes in giving sequences. 
   
 
