@@ -1,7 +1,7 @@
 ---
 title: "Lab 6- R Function Lab"
 author: "Cecilia Wang (PID:18625854)"
-format: pdf
+format: gfm
 ---
 
 ## Background
